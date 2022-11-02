@@ -18,4 +18,9 @@ class Innings:
 
     def show_score_board(self):
         print(
+            f'* {self.current_batting_list[0].player_name} - {self.current_batting_list[0].run_added} ({self.current_batting_list[0].ball_played})', end='\t')
+        print(
+            f'{self.current_batting_list[1].player_name} - {self.current_batting_list[1].run_added} ({self.current_batting_list[1].ball_played})')
+        print(
             f"{self.batting_team_obj.team_name[:3].upper()}\t{self.total_runs} - {self.total_wickets} \t{self.bowling_team_obj.team_name[:3].upper()} Innings started")
+        print(f'Overs: {self.total_overs}.{self.current_ball}')
