@@ -17,6 +17,8 @@ class Innings:
         self.all_over_status = []
 
     def show_score_board(self):
+        print('\n********************************************************')
+        print('\t\tSCORE BOARD')
         print(
             f'* {self.current_batting_list[0].player_name} - {self.current_batting_list[0].run_added} ({self.current_batting_list[0].ball_played})', end='\t')
         print(
@@ -24,3 +26,12 @@ class Innings:
         print(
             f"{self.batting_team_obj.team_name[:3].upper()}\t{self.total_runs} - {self.total_wickets} \t{self.bowling_team_obj.team_name[:3].upper()} Innings started")
         print(f'Overs: {self.total_overs}.{self.current_ball}')
+
+        if self.current_bowler is not None:
+            print(
+                f'{self.current_bowler.player_name} - {self.current_bowler.run_conceded}/{self.current_bowler.wicket_taken}')
+
+        print('********************************************************\n')
+
+    def set_bowler(self, bowler_obj):
+        self.current_bowler = bowler_obj

@@ -88,5 +88,14 @@ while True:
     first_innings = Innings(team_one_obj, team_two_obj,
                             batting_team_obj, bowling_team_obj)
     first_innings.show_score_board()
-    # print(batting_team_obj, bowling_team_obj)
+    print('Choose Bowler: ')
+    for i, player in enumerate(bowling_team_obj.players_list_obj):
+        print(f'{i+1}. {player.player_name}')
+    bowler_idx = int(input('Select Bowler Serial: '))
+    bowler_idx -= 1
+    bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
+    first_innings.set_bowler(bowler_obj)
+
+    first_innings.show_score_board()
+
     break
