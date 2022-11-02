@@ -97,5 +97,18 @@ while True:
     first_innings.set_bowler(bowler_obj)
 
     first_innings.show_score_board()
+    first_innings.bowl(6)
+    first_innings.bowl(1)
+    first_innings.bowl(1)
+    first_innings.bowl(1)
+    first_innings.bowl(4)
+    first_innings.bowl(1)
+    first_innings.bowl(1)
+    first_innings.bowl(0)
+    first_innings.bowl(1)
+    first_innings.bowl(1)
+    first_innings.bowl(1)
+    first_innings.bowl(1)
+    first_innings.show_score_board()
 
     break
