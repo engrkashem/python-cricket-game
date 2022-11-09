@@ -4,7 +4,7 @@ getcontext().prec = 1
 
 
 class Innings:
-    def __init__(self, team1, team2, bat_team, bowl_team) -> None:
+    def __init__(self, team1, team2, bat_team, bowl_team, match_balls) -> None:
         self.team1_obj = team1
         self.team2_obj = team2
         self.batting_team_obj = bat_team
@@ -20,6 +20,8 @@ class Innings:
         self.current_bowler = None
         self.current_over_status = []
         self.all_over_status = []
+        self.target = None
+        self.match_balls = match_balls
 
     def show_score_board(self):
         print('\n********************************************************')
@@ -30,7 +32,12 @@ class Innings:
             f'{self.current_batting_list[1].player_name} - {self.current_batting_list[1].run_added} ({self.current_batting_list[1].ball_played})')
         print(
             f"{self.batting_team_obj.team_name[:3].upper()}\t{self.total_runs} - {self.total_wickets} \t{self.bowling_team_obj.team_name[:3].upper()} Innings started")
-        print(f'Overs: {self.total_overs}.{self.current_ball}')
+        print(f'Overs: {self.total_overs}.{self.current_ball}', end='\t\t')
+
+        if self.target:
+            print(f'Target- {self.target}')
+        else:
+            print()
 
         if self.current_bowler is not None:
             overs = math.floor(self.current_bowler.ball_bowled/6)
@@ -48,8 +55,13 @@ class Innings:
             print('Last Over-', end=' ')
             for i in self.all_over_status[-1]:
                 print(i, end=' ')
+        if self.target:
+            print(
+                f'\nNeed- {self.target-self.total_runs} more from {self.match_balls - (self.total_overs*6+self.current_ball)} balls.')
+        else:
+            print()
 
-        print('\n********************************************************\n')
+        print('********************************************************\n')
 
     def set_bowler(self, bowler_obj):
         self.current_bowler = bowler_obj

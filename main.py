@@ -58,6 +58,7 @@ bumra = Player('Jasprit Bumra', india)
 # mustafiz = Player('Mustafizur Rahman', bangladesh)
 
 while True:
+    match_overs = 2
     print("Select Teams to be played")
     for i, team_obj in enumerate(cup.all_team):
         print(f'{i+1}. {team_obj.team_name}')
@@ -89,12 +90,12 @@ while True:
 
     # start first innings
     first_innings = Innings(team_one_obj, team_two_obj,
-                            batting_team_obj, bowling_team_obj)
+                            batting_team_obj, bowling_team_obj, match_overs*6)
     # score board shown default
     first_innings.show_score_board()
 
-    # innings started
-    while first_innings.total_overs*6 + first_innings.current_ball < 12:
+    # First innings started
+    while first_innings.total_overs*6 + first_innings.current_ball < match_overs*6:
         if first_innings.current_ball == 0:
             # selecting bowler by captain/user
             print('Choose Bowler: ')
@@ -113,5 +114,35 @@ while True:
 
         # show updated score board
         first_innings.show_score_board()
+
+    # start Second innings
+    second_innings = Innings(team_one_obj, team_two_obj,
+                             bowling_team_obj, batting_team_obj, match_overs*6)
+
+    second_innings.target = first_innings.total_runs+1
+
+    # score board shown default
+    second_innings.show_score_board()
+
+    # Second innings started
+    while second_innings.total_overs*6 + second_innings.current_ball < 12:
+        if second_innings.current_ball == 0:
+            # selecting bowler by captain/user
+            print('Choose Bowler: ')
+            for i, player in enumerate(batting_team_obj.players_list_obj):
+                print(f'{i+1}. {player.player_name}')
+            bowler_idx = int(input('Select Bowler Serial: '))
+            bowler_idx -= 1
+            bowler_obj = batting_team_obj.players_list_obj[bowler_idx]
+            second_innings.set_bowler(bowler_obj)
+
+        # no-ball: N4, wide: W2, wicket: W
+        status = input('Enter after ball status: ')
+
+        # first_innings.show_score_board()
+        second_innings.bowl(status)
+
+        # show updated score board
+        second_innings.show_score_board()
 
     break
