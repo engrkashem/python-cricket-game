@@ -56,8 +56,11 @@ class Innings:
             for i in self.all_over_status[-1]:
                 print(i, end=' ')
         if self.target:
+            need = self.target-self.total_runs
+            if need < 0:
+                need = 0
             print(
-                f'\nNeed- {self.target-self.total_runs} more from {self.match_balls - (self.total_overs*6+self.current_ball)} balls.')
+                f'\nNeed- {need} more from {self.match_balls - (self.total_overs*6+self.current_ball)} balls.')
         else:
             print()
 
@@ -85,6 +88,7 @@ class Innings:
 
         else:
             if status[0].upper() == 'W' and len(status) == 1:
+                # if wicket fall
                 is_out = True
 
             elif status[0].upper() == 'N':
@@ -133,8 +137,8 @@ class Innings:
             self.striker.ball_played += 1
 
         # update batsman strike rate
-        self.striker.strike_rate = (
-            self.striker.run_added / self.striker.ball_played)*100
+        self.striker.strike_rate = round((
+            self.striker.run_added / self.striker.ball_played)*100)
 
         # for extra run
         self.extra_run = ext_run
@@ -153,9 +157,11 @@ class Innings:
             print('__________________________________________________\n\n')
             self.total_wickets += 1
             self.current_bowler.wicket_taken += 1
-            if self.total_wickets < 10:
+            if self.total_wickets < len(self.batting_team_obj.players_list_obj)-2:
                 self.current_batting_list[0] = self.batting_team_obj.players_list_obj[self.total_wickets+1]
                 self.striker = self.current_batting_list[0]
+            else:
+                return 'end'
 
         # handle over and rotate strike
         if self.current_ball == 6:
@@ -164,3 +170,9 @@ class Innings:
             self.change_strike()
             self.all_over_status.append(self.current_over_status)
             self.current_over_status = []
+
+        # handle win for second innings
+        if self.target and self.total_runs >= self.target:
+            return 'win'
+
+        return ''

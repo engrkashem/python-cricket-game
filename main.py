@@ -28,7 +28,7 @@ class Player:
     def __init__(self, name, team_obj) -> None:
         self.player_name = name
         # batsman info
-        self.strike_rate = 0.0
+        self.strike_rate = 0
         self.run_added = 0
         self.ball_played = 0
         self.fours = 0
@@ -109,8 +109,12 @@ while True:
         # no-ball: N4, wide: W2, wicket: W
         status = input('Enter after ball status: ')
 
-        # first_innings.show_score_board()
-        first_innings.bowl(status)
+        # first_innings update score board
+        response = first_innings.bowl(status)
+
+        # handle all-out
+        if response == 'end':
+            break
 
         # show updated score board
         first_innings.show_score_board()
@@ -120,6 +124,8 @@ while True:
                              bowling_team_obj, batting_team_obj, match_overs*6)
 
     second_innings.target = first_innings.total_runs+1
+
+    print(f'\n{bowling_team_obj.team_name} Target: {second_innings.target}\n')
 
     # score board shown default
     second_innings.show_score_board()
@@ -139,10 +145,20 @@ while True:
         # no-ball: N4, wide: W2, wicket: W
         status = input('Enter after ball status: ')
 
-        # first_innings.show_score_board()
-        second_innings.bowl(status)
+        # second_innings update score board
+        response = second_innings.bowl(status)
 
         # show updated score board
         second_innings.show_score_board()
+
+        # handle win/lose
+        if response == 'end':
+            print(
+                f'\n{batting_team_obj.team_name} has Won By {second_innings.target-second_innings.total_runs} Runs\n')
+            break
+        elif response == 'win':
+            print(
+                f'\n{bowling_team_obj.team_name} has Won By {10-second_innings.total_wickets} Wickets\n')
+            break
 
     break
