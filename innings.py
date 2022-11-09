@@ -13,6 +13,7 @@ class Innings:
         self.total_wickets = 0
         self.total_overs = 0
         self.current_ball = 0
+        self.extra_run = 0
         self.current_batting_list = [
             bat_team.players_list_obj[0], bat_team.players_list_obj[1]]
         self.striker = bat_team.players_list_obj[0]
@@ -45,15 +46,50 @@ class Innings:
 
     def bowl(self, status):
         run = 0
+        bat_run = 0
+        bowl_run = 0
+        ext_run = 0
+        is_ball_valid = True
         if status.isnumeric():
-            run = int(status)
-        print(run)
+            bat_run = bowl_run = run = int(status)
+
+        else:
+            if status[0].upper() == 'W' and len(status) == 1:
+                pass
+            elif status[0].upper() == 'N':
+                # if ball is NO Ball
+                is_ball_valid = False
+                ext_run = bowl_run = run = 1+int(status[1:])
+                bat_run = int(status[1:])
+
+            elif status[0].upper() == 'W':
+                # if ball is WIDE Ball
+                is_ball_valid = False
+                ext_run = bowl_run = run = 1+int(status[1:])
+
+            elif status[1:].upper() == 'LB':
+                # if ball is Valid and run is leg by
+                bat_run = bowl_run = run = int(status[0])
+
+            elif status[1:].upper() == 'B':
+                # if ball is Valid and run is BY
+                ext_run = run = int(status[0])
+
+        # Score board updating
         self.total_runs += run
-        self.striker.run_added += run
-        self.striker.ball_played += 1
-        self.current_bowler.run_conceded += run
-        self.current_bowler.ball_bowled += 1
-        self.current_ball += 1
+        self.current_bowler.run_conceded += bowl_run
+        self.striker.run_added += bat_run
+
+        # if ball is No/Wide
+        if is_ball_valid:
+            self.current_ball += 1
+            self.striker.ball_played += 1
+            self.current_bowler.ball_bowled += 1
+
+        # for extra run
+        self.extra_run = ext_run
+
+        # ball converted to overs and ball
         if self.current_ball == 6:
             self.current_ball = 0
             self.total_overs += 1
