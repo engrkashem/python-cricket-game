@@ -5,8 +5,8 @@ from make_team import cup
 
 
 while True:
-    match_overs = 2
-    print("Select Teams to be played")
+    match_overs = int(input('Enter Total Overs of an Innings: '))
+    print("Select Teams to be played (eg. 1 2)")
     for i, team_obj in enumerate(cup.all_team):
         print(f'{i+1}. {team_obj.team_name}')
     team_one_idx, team_two_idx = map(int, input(
@@ -26,6 +26,7 @@ while True:
     rand = choice(['BAT', 'BOWL'])
     print(
         f'{cup.all_team[toss_win].team_name} won the TOSS and choose to {rand} first')
+    sleep(2)
     if rand == 'BAT':
         # toss winning team opt to bat
         batting_team_obj = cup.all_team[toss_win]
@@ -48,13 +49,19 @@ while True:
             print('Choose Bowler: ')
             for i, player in enumerate(bowling_team_obj.players_list_obj):
                 print(f'{i+1}. {player.player_name}')
-            bowler_idx = int(input('Select Bowler Serial: '))
+
+            # bowler_idx = int(input('Select Bowler Serial: '))
+            bowler_idx = choice([10, 11, 9, 5, 8, 7])  # bowlers index
             bowler_idx -= 1
             bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
             first_innings.set_bowler(bowler_obj)
+            print(f'\n New Bowler: {bowler_obj.player_name}\n')
+            sleep(1)
 
-        # no-ball: N4, wide: W2, wicket: W
-        status = input('Enter after ball status: ')
+        # action after a ball is bowled:  no-ball- N4, wide- W2, wicket- W etc.
+        # status = input('Enter after ball status: ')
+        status = choice(['6', '4', '3', '2', '1', 'W', 'W1',
+                        'W4', 'N0', 'N1', 'N4', 'N6', '1lb', '4lb', '1b'])  # Possible actions
 
         # first_innings update score board
         response = first_innings.bowl(status)
@@ -71,9 +78,11 @@ while True:
     second_innings = Innings(team_one_obj, team_two_obj,
                              batting_team_obj, bowling_team_obj, match_overs*6)
 
+    # Set target for second innings
     second_innings.target = first_innings.total_runs+1
 
-    print(f'\n{batting_team_obj.team_name} Target: {second_innings.target}\n')
+    print(f'\n{batting_team_obj.team_name} Match started and Target: {second_innings.target}\n')
+    sleep(2)
 
     # score board shown default
     second_innings.show_score_board()
@@ -85,13 +94,19 @@ while True:
             print('Choose Bowler: ')
             for i, player in enumerate(bowling_team_obj.players_list_obj):
                 print(f'{i+1}. {player.player_name}')
-            bowler_idx = int(input('Select Bowler Serial: '))
+
+            # bowler_idx = int(input('Select Bowler Serial: '))
+            bowler_idx = choice([10, 11, 9, 5, 8, 7])  # bowlers index
             bowler_idx -= 1
             bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
             second_innings.set_bowler(bowler_obj)
+            print(f'\n New Bowler: {bowler_obj.player_name}\n')
+            sleep(1)
 
-        # no-ball: N4, wide: W2, wicket: W
-        status = input('Enter after ball status: ')
+        # action after a ball is bowled:  no-ball- N4, wide- W2, wicket- W etc.
+        # status = input('Enter after ball status: ')
+        status = choice(['6', '4', '3', '2', '1', 'W', 'W1',
+                        'W4', 'N0', 'N1', 'N4', 'N6', '1lb', '4lb', '1b'])  # Possible actions
 
         # second_innings update score board
         response = second_innings.bowl(status)

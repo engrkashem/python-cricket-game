@@ -1,12 +1,13 @@
 from player import Player
 from team_tournamets import Tournament, Team
-# 10 11 9 5 7
+
+
 cup = Tournament()
 # Team Bangladesh Making
 bangladesh = Team('Bangladesh')
 
 bd_players_list = ['Tamim Iqbal', 'Liton Das', 'Md Ashraful', 'Mushfiqur Rahim', 'Sakib Al Hasan',
-                   'Mohammadullah', 'Akram Khan', 'Mehedi Meraz', 'Mashrafee Mortaza', 'Mustafizur Rahman', 'Taskin Ahmed']
+                   'Akram Khan', 'Mohammadullah', 'Mehedi Meraz', 'Mashrafee Mortaza', 'Mustafizur Rahman', 'Taskin Ahmed']
 for player_name in bd_players_list:
     player = Player(player_name, bangladesh)
 
@@ -23,7 +24,7 @@ for player_name in ind_players_list:
 sa = Team('South Africa')
 
 sa_players_list = ['Hashim Amla', 'F du Plessis', 'AB de Villiers', 'HH Gibbs', 'JH Kallis',
-                   'MV Boucher', 'GA Faulkner', 'Keshav Maharaj', 'Imran Tahir', 'Shaun Pollock', 'Dayl Stayn']
+                   'MV Boucher', 'Jonty Rhodes', 'Keshav Maharaj', 'Imran Tahir', 'Shaun Pollock', 'Dayl Stayn']
 for player_name in sa_players_list:
     player = Player(player_name, sa)
 

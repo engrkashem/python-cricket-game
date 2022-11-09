@@ -118,7 +118,7 @@ class Innings:
         if bat_run % 2 == 1:
             will_strike_change = True
 
-        # hand stat of fours and sixes
+        # handle stats of fours and sixes fro a batsman
         if bat_run == 4:
             self.striker.fours += 1
         if bat_run == 6:
@@ -137,8 +137,9 @@ class Innings:
             self.striker.ball_played += 1
 
         # update batsman strike rate
-        self.striker.strike_rate = round((
-            self.striker.run_added / self.striker.ball_played)*100)
+        if self.striker.ball_played != 0:
+            self.striker.strike_rate = round(
+                (self.striker.run_added / self.striker.ball_played)*100)
 
         # for extra run
         self.extra_run = ext_run
