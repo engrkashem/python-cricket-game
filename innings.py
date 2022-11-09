@@ -39,7 +39,17 @@ class Innings:
             print(
                 f'{self.current_bowler.player_name} - {self.current_bowler.run_conceded}/{self.current_bowler.wicket_taken}\t {overs}.{balls}')
 
-        print('********************************************************\n')
+        if self.current_ball != 0:
+            print("Current Over-", end=' ')
+            for i in self.current_over_status:
+                print(i, end=' ')
+
+        if self.current_ball == 0 and self.total_overs > 0:
+            print('Last Over-', end=' ')
+            for i in self.all_over_status[-1]:
+                print(i, end=' ')
+
+        print('\n********************************************************\n')
 
     def set_bowler(self, bowler_obj):
         self.current_bowler = bowler_obj
@@ -49,6 +59,7 @@ class Innings:
         self.striker = self.current_batting_list[0]
 
     def bowl(self, status):
+        self.current_over_status.append(status.upper())
         run = 0
         bat_run = 0
         bowl_run = 0
@@ -139,3 +150,5 @@ class Innings:
             self.current_ball = 0
             self.total_overs += 1
             self.change_strike()
+            self.all_over_status.append(self.current_over_status)
+            self.current_over_status = []
