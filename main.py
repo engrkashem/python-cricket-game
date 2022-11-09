@@ -1,17 +1,20 @@
 from random import choice
-
 from pyautogui import sleep
 from innings import Innings
+# from team import Team
+# from team import Player
+
+# from make_team import cup
 
 
-class T2Cup:
+class Tournament:
     all_team = []
 
     def entry_team(self, team_obj):
         self.all_team.append(team_obj)
 
 
-class Team(T2Cup):
+class Team(Tournament):
     def __init__(self, name) -> None:
         self.team_name = name
         self.players_list_obj = []
@@ -43,7 +46,7 @@ class Player:
         return f'From Player.__repr__:- Name: {self.player_name}.'
 
 
-cup = T2Cup()
+cup = Tournament()
 bangladesh = Team('Bangladesh')
 india = Team('India')
 bd_players_list = ['Tamim Iqbal', 'Sakib Al Hasan', 'Mushfiqur Rahim',
@@ -55,7 +58,7 @@ for player_name in bd_players_list:
 kohli = Player('Virat Kohli', india)
 rohit = Player('Rohit Sharma', india)
 bumra = Player('Jasprit Bumra', india)
-# mustafiz = Player('Mustafizur Rahman', bangladesh)
+
 
 while True:
     match_overs = 2
@@ -120,12 +123,13 @@ while True:
         first_innings.show_score_board()
 
     # start Second innings
+    batting_team_obj, bowling_team_obj = bowling_team_obj, batting_team_obj
     second_innings = Innings(team_one_obj, team_two_obj,
-                             bowling_team_obj, batting_team_obj, match_overs*6)
+                             batting_team_obj, bowling_team_obj, match_overs*6)
 
     second_innings.target = first_innings.total_runs+1
 
-    print(f'\n{bowling_team_obj.team_name} Target: {second_innings.target}\n')
+    print(f'\n{batting_team_obj.team_name} Target: {second_innings.target}\n')
 
     # score board shown default
     second_innings.show_score_board()
@@ -135,11 +139,11 @@ while True:
         if second_innings.current_ball == 0:
             # selecting bowler by captain/user
             print('Choose Bowler: ')
-            for i, player in enumerate(batting_team_obj.players_list_obj):
+            for i, player in enumerate(bowling_team_obj.players_list_obj):
                 print(f'{i+1}. {player.player_name}')
             bowler_idx = int(input('Select Bowler Serial: '))
             bowler_idx -= 1
-            bowler_obj = batting_team_obj.players_list_obj[bowler_idx]
+            bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
             second_innings.set_bowler(bowler_obj)
 
         # no-ball: N4, wide: W2, wicket: W
@@ -154,11 +158,14 @@ while True:
         # handle win/lose
         if response == 'end':
             print(
-                f'\n{batting_team_obj.team_name} has Won By {second_innings.target-second_innings.total_runs} Runs\n')
+                f'\n{bowling_team_obj.team_name} has Won By {second_innings.target-second_innings.total_runs} Runs\n')
             break
         elif response == 'win':
             print(
-                f'\n{bowling_team_obj.team_name} has Won By {10-second_innings.total_wickets} Wickets\n')
+                f'\n{batting_team_obj.team_name} has Won By {10-second_innings.total_wickets} Wickets\n')
             break
+
+    if second_innings.target > second_innings.total_runs:
+        print(f'\n{bowling_team_obj.team_name} has Won By {second_innings.target-second_innings.total_runs} Runs\n')
 
     break

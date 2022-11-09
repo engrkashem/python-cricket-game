@@ -1,6 +1,6 @@
-from decimal import Decimal, getcontext
+# from decimal import Decimal, getcontext
 import math
-getcontext().prec = 1
+# getcontext().prec = 1
 
 
 class Innings:
