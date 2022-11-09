@@ -60,8 +60,8 @@ while True:
 
         # action after a ball is bowled:  no-ball- N4, wide- W2, wicket- W etc.
         # status = input('Enter after ball status: ')
-        status = choice(['6', '4', '3', '2', '1', 'W', 'W1',
-                        'W4', 'N0', 'N1', 'N4', 'N6', '1lb', '4lb', '1b'])  # Possible actions
+        status = choice(['6', '4', '3', '2', '1', 'W', 'W1', 'W4', '6', '4', '3', '2', '1', 'N0', 'N1', 'N4',
+                        'N6', '6', '4', '3', '2', '1', '1lb', '4lb', '1b', '6', '4', '3', '2', '1'])  # Possible actions
 
         # first_innings update score board
         response = first_innings.bowl(status)
@@ -70,8 +70,9 @@ while True:
         if response == 'end':
             break
 
-        # show updated score board
-        first_innings.show_score_board()
+        # show updated score board after every overs
+        if (first_innings.total_overs*6 + first_innings.current_ball) % 6 == 0:
+            first_innings.show_score_board()
 
     # start Second innings
     batting_team_obj, bowling_team_obj = bowling_team_obj, batting_team_obj
@@ -88,7 +89,7 @@ while True:
     second_innings.show_score_board()
 
     # Second innings started
-    while second_innings.total_overs*6 + second_innings.current_ball < 12:
+    while second_innings.total_overs*6 + second_innings.current_ball < match_overs*6:
         if second_innings.current_ball == 0:
             # selecting bowler by captain/user
             print('Choose Bowler: ')
@@ -105,26 +106,30 @@ while True:
 
         # action after a ball is bowled:  no-ball- N4, wide- W2, wicket- W etc.
         # status = input('Enter after ball status: ')
-        status = choice(['6', '4', '3', '2', '1', 'W', 'W1',
-                        'W4', 'N0', 'N1', 'N4', 'N6', '1lb', '4lb', '1b'])  # Possible actions
+        status = choice(['6', '4', '3', '2', '1', 'W', 'W1', 'W4', '6', '4', '3', '2', '1', 'N0', 'N1', 'N4',
+                        'N6', '6', '4', '3', '2', '1', '1lb', '4lb', '1b', '6', '4', '3', '2', '1'])  # Possible actions
 
         # second_innings update score board
         response = second_innings.bowl(status)
 
         # show updated score board
-        second_innings.show_score_board()
+        if (second_innings.total_overs*6 + second_innings.current_ball) % 6 == 0:
+            second_innings.show_score_board()
 
         # handle win/lose
         if response == 'end':
+            second_innings.show_score_board()
             print(
                 f'\n{bowling_team_obj.team_name} has Won By {second_innings.target-second_innings.total_runs} Runs\n')
             break
         elif response == 'win':
+            second_innings.show_score_board()
             print(
                 f'\n{batting_team_obj.team_name} has Won By {10-second_innings.total_wickets} Wickets\n')
             break
 
     if second_innings.target > second_innings.total_runs:
+        second_innings.show_score_board()
         print(f'\n{bowling_team_obj.team_name} has Won By {second_innings.target-second_innings.total_runs} Runs\n')
 
     break

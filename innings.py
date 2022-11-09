@@ -55,14 +55,13 @@ class Innings:
             print('Last Over-', end=' ')
             for i in self.all_over_status[-1]:
                 print(i, end=' ')
+        print(f'\nTotal Exreas: {self.extra_run}')
         if self.target:
             need = self.target-self.total_runs
             if need < 0:
                 need = 0
             print(
-                f'\nNeed- {need} more from {self.match_balls - (self.total_overs*6+self.current_ball)} balls.')
-        else:
-            print()
+                f'Need- {need} more from {self.match_balls - (self.total_overs*6+self.current_ball)} balls.')
 
         print('********************************************************\n')
 
@@ -128,6 +127,7 @@ class Innings:
         self.total_runs += run
         self.current_bowler.run_conceded += bowl_run
         self.striker.run_added += bat_run
+        self.extra_run += ext_run
 
         # if ball is No/Wide
         if not is_no and not is_wide:
@@ -140,9 +140,6 @@ class Innings:
         if self.striker.ball_played != 0:
             self.striker.strike_rate = round(
                 (self.striker.run_added / self.striker.ball_played)*100)
-
-        # for extra run
-        self.extra_run = ext_run
 
         # handle strike change
         if will_strike_change:
