@@ -49,7 +49,8 @@ class Innings:
         bat_run = 0
         bowl_run = 0
         ext_run = 0
-        is_ball_valid = True
+        is_no = False
+        is_wide = False
         if status.isnumeric():
             bat_run = bowl_run = run = int(status)
 
@@ -58,20 +59,20 @@ class Innings:
                 pass
             elif status[0].upper() == 'N':
                 # if ball is NO Ball
-                is_ball_valid = False
-                ext_run = bowl_run = run = 1+int(status[1:])
-                bat_run = int(status[1:])
+                is_no = True
+                ext_run = bowl_run = run = 1+int(status[1])
+                bat_run = int(status[1])
 
             elif status[0].upper() == 'W':
                 # if ball is WIDE Ball
-                is_ball_valid = False
-                ext_run = bowl_run = run = 1+int(status[1:])
+                is_wide = True
+                ext_run = bowl_run = run = 1+int(status[1])
 
             elif status[1:].upper() == 'LB':
                 # if ball is Valid and run is leg by
                 bat_run = bowl_run = run = int(status[0])
 
-            elif status[1:].upper() == 'B':
+            elif status[1].upper() == 'B':
                 # if ball is Valid and run is BY
                 ext_run = run = int(status[0])
 
@@ -81,10 +82,11 @@ class Innings:
         self.striker.run_added += bat_run
 
         # if ball is No/Wide
-        if is_ball_valid:
+        if not is_no and not is_wide:
             self.current_ball += 1
-            self.striker.ball_played += 1
             self.current_bowler.ball_bowled += 1
+        if not is_wide:
+            self.striker.ball_played += 1
 
         # for extra run
         self.extra_run = ext_run
