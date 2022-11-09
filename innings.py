@@ -43,7 +43,11 @@ class Innings:
     def set_bowler(self, bowler_obj):
         self.current_bowler = bowler_obj
 
-    def bowl(self, run):
+    def bowl(self, status):
+        run = 0
+        if status.isnumeric():
+            run = int(status)
+        print(run)
         self.total_runs += run
         self.striker.run_added += run
         self.striker.ball_played += 1

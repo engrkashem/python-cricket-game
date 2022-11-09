@@ -27,11 +27,13 @@ class Team(T2Cup):
 class Player:
     def __init__(self, name, team_obj) -> None:
         self.player_name = name
+        # batsman info
         self.strike_rate = 0.0
         self.run_added = 0
         self.ball_played = 0
         self.fours = 0
         self.sixes = 0
+        # bowler info
         self.run_conceded = 0
         self.wicket_taken = 0
         self.ball_bowled = 0
@@ -85,30 +87,31 @@ while True:
         bowling_team_obj = cup.all_team[toss_win]
         batting_team_obj = cup.all_team[toss_loose]
 
+    # start first innings
     first_innings = Innings(team_one_obj, team_two_obj,
                             batting_team_obj, bowling_team_obj)
+    # score board shown default
     first_innings.show_score_board()
-    print('Choose Bowler: ')
-    for i, player in enumerate(bowling_team_obj.players_list_obj):
-        print(f'{i+1}. {player.player_name}')
-    bowler_idx = int(input('Select Bowler Serial: '))
-    bowler_idx -= 1
-    bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
-    first_innings.set_bowler(bowler_obj)
 
-    first_innings.show_score_board()
-    first_innings.bowl(6)
-    first_innings.bowl(1)
-    first_innings.bowl(1)
-    first_innings.bowl(1)
-    first_innings.bowl(4)
-    first_innings.bowl(1)
-    first_innings.bowl(1)
-    first_innings.bowl(0)
-    first_innings.bowl(1)
-    first_innings.bowl(1)
-    first_innings.bowl(1)
-    first_innings.bowl(1)
-    first_innings.show_score_board()
+    # innings started
+    while first_innings.total_overs*6 + first_innings.current_ball < 12:
+        if first_innings.current_ball == 0:
+            # selecting bowler by captain/user
+            print('Choose Bowler: ')
+            for i, player in enumerate(bowling_team_obj.players_list_obj):
+                print(f'{i+1}. {player.player_name}')
+            bowler_idx = int(input('Select Bowler Serial: '))
+            bowler_idx -= 1
+            bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
+            first_innings.set_bowler(bowler_obj)
+
+        # no-ball: N4, wide: W2, wicket: W
+        status = input('Enter after ball status: ')
+
+        # first_innings.show_score_board()
+        first_innings.bowl(status)
+
+        # show updated score board
+        first_innings.show_score_board()
 
     break
