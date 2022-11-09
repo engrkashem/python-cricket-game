@@ -87,6 +87,7 @@ class Innings:
                 if run % 2 == 1:
                     will_strike_change = True
 
+        # handle strike change
         if bat_run % 2 == 1:
             will_strike_change = True
 
@@ -108,6 +109,10 @@ class Innings:
         if not is_wide:
             self.striker.ball_played += 1
 
+        # update batsman strike rate
+        self.striker.strike_rate = (
+            self.striker.run_added / self.striker.ball_played)*100
+
         # for extra run
         self.extra_run = ext_run
 
@@ -117,6 +122,12 @@ class Innings:
 
         # handle out, new batsman enter to crease
         if is_out:
+            print('\n__________________________________________________')
+            print(
+                f'{self.striker.player_name}\t {self.striker.run_added}/{self.striker.ball_played}')
+            print(
+                f'Strike Rate: {self.striker.strike_rate}\t Fours: {self.striker.fours}\t Sixes: {self.striker.sixes}')
+            print('__________________________________________________\n\n')
             self.total_wickets += 1
             self.current_bowler.wicket_taken += 1
             if self.total_wickets < 10:
