@@ -44,6 +44,10 @@ class Innings:
     def set_bowler(self, bowler_obj):
         self.current_bowler = bowler_obj
 
+    def change_strike(self):
+        self.current_batting_list[0], self.current_batting_list[1] = self.current_batting_list[1], self.current_batting_list[0]
+        self.striker = self.current_batting_list[0]
+
     def bowl(self, status):
         run = 0
         bat_run = 0
@@ -52,12 +56,14 @@ class Innings:
         is_no = False
         is_wide = False
         will_strike_change = False
+        is_out = False
         if status.isnumeric():
             bat_run = bowl_run = run = int(status)
 
         else:
             if status[0].upper() == 'W' and len(status) == 1:
-                pass
+                is_out = True
+
             elif status[0].upper() == 'N':
                 # if ball is NO Ball
                 is_no = True
@@ -84,6 +90,12 @@ class Innings:
         if bat_run % 2 == 1:
             will_strike_change = True
 
+        # hand stat of fours and sixes
+        if bat_run == 4:
+            self.striker.fours += 1
+        if bat_run == 6:
+            self.striker.sixes += 1
+
         # Score board updating
         self.total_runs += run
         self.current_bowler.run_conceded += bowl_run
@@ -99,13 +111,20 @@ class Innings:
         # for extra run
         self.extra_run = ext_run
 
-        # ball converted to overs and ball
+        # handle strike change
+        if will_strike_change:
+            self.change_strike()
+
+        # handle out, new batsman enter to crease
+        if is_out:
+            self.total_wickets += 1
+            self.current_bowler.wicket_taken += 1
+            if self.total_wickets < 10:
+                self.current_batting_list[0] = self.batting_team_obj.players_list_obj[self.total_wickets+1]
+                self.striker = self.current_batting_list[0]
+
+        # handle over and rotate strike
         if self.current_ball == 6:
             self.current_ball = 0
             self.total_overs += 1
-
-        # handle strike change
-        if will_strike_change:
-            self.current_batting_list[0], self.current_batting_list[
-                1] = self.current_batting_list[1], self.current_batting_list[0]
-            self.striker = self.current_batting_list[0]
+            self.change_strike()
