@@ -1,63 +1,7 @@
 from random import choice
 from pyautogui import sleep
 from innings import Innings
-# from team import Team
-# from team import Player
-
-# from make_team import cup
-
-
-class Tournament:
-    all_team = []
-
-    def entry_team(self, team_obj):
-        self.all_team.append(team_obj)
-
-
-class Team(Tournament):
-    def __init__(self, name) -> None:
-        self.team_name = name
-        self.players_list_obj = []
-        super().entry_team(self)
-
-    def entry_player(self, player):  # player is a type of player object
-        self.players_list_obj.append(player)
-
-    def __repr__(self) -> str:
-        return f'From Team.__repr__:- Team name: {self.team_name}.'
-
-
-class Player:
-    def __init__(self, name, team_obj) -> None:
-        self.player_name = name
-        # batsman info
-        self.strike_rate = 0
-        self.run_added = 0
-        self.ball_played = 0
-        self.fours = 0
-        self.sixes = 0
-        # bowler info
-        self.run_conceded = 0
-        self.wicket_taken = 0
-        self.ball_bowled = 0
-        team_obj.entry_player(self)
-
-    def __repr__(self) -> str:
-        return f'From Player.__repr__:- Name: {self.player_name}.'
-
-
-cup = Tournament()
-bangladesh = Team('Bangladesh')
-india = Team('India')
-bd_players_list = ['Tamim Iqbal', 'Sakib Al Hasan', 'Mushfiqur Rahim',
-                   'Mustafizur Rahman', 'Taskin Ahmed']
-for player_name in bd_players_list:
-    player = Player(player_name, bangladesh)
-# tamim = Player('Tamim Iqbal', bangladesh)
-# sakib = Player('Sakib Al Hasan', bangladesh)
-kohli = Player('Virat Kohli', india)
-rohit = Player('Rohit Sharma', india)
-bumra = Player('Jasprit Bumra', india)
+from make_team import cup
 
 
 while True:
