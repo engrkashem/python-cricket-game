@@ -51,6 +51,7 @@ class Innings:
         ext_run = 0
         is_no = False
         is_wide = False
+        will_strike_change = False
         if status.isnumeric():
             bat_run = bowl_run = run = int(status)
 
@@ -67,6 +68,8 @@ class Innings:
                 # if ball is WIDE Ball
                 is_wide = True
                 ext_run = bowl_run = run = 1+int(status[1])
+                if int(status[1]) % 2 == 1:
+                    will_strike_change = True
 
             elif status[1:].upper() == 'LB':
                 # if ball is Valid and run is leg by
@@ -75,6 +78,11 @@ class Innings:
             elif status[1].upper() == 'B':
                 # if ball is Valid and run is BY
                 ext_run = run = int(status[0])
+                if run % 2 == 1:
+                    will_strike_change = True
+
+        if bat_run % 2 == 1:
+            will_strike_change = True
 
         # Score board updating
         self.total_runs += run
@@ -95,3 +103,9 @@ class Innings:
         if self.current_ball == 6:
             self.current_ball = 0
             self.total_overs += 1
+
+        # handle strike change
+        if will_strike_change:
+            self.current_batting_list[0], self.current_batting_list[
+                1] = self.current_batting_list[1], self.current_batting_list[0]
+            self.striker = self.current_batting_list[0]
