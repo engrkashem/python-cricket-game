@@ -16,7 +16,7 @@ while True:
     team_one_obj = cup.all_team[team_one_idx]
     team_two_obj = cup.all_team[team_two_idx]
     print('Both captains and match officials are heading toward field to TOSS for match')
-    sleep(1)
+    sleep(2)
     toss_win = choice([team_one_idx, team_two_idx])
     if toss_win == team_one_idx:
         toss_loose = team_two_idx
@@ -46,9 +46,10 @@ while True:
     while first_innings.total_overs*6 + first_innings.current_ball < match_overs*6:
         if first_innings.current_ball == 0:
             # selecting bowler by captain/user
-            print('Choose Bowler: ')
+            print('Captain Secelting Bowler: ')
             for i, player in enumerate(bowling_team_obj.players_list_obj):
                 print(f'{i+1}. {player.player_name}')
+            sleep(2)
 
             # bowler_idx = int(input('Select Bowler Serial: '))
             bowler_idx = choice([10, 11, 9, 5, 8, 7])  # bowlers index
@@ -56,7 +57,7 @@ while True:
             bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
             first_innings.set_bowler(bowler_obj)
             print(f'\n New Bowler: {bowler_obj.player_name}\n')
-            sleep(1)
+            sleep(2)
 
         # action after a ball is bowled:  no-ball- N4, wide- W2, wicket- W etc.
         # status = input('Enter after ball status: ')
@@ -73,6 +74,7 @@ while True:
         # show updated score board after every overs
         if (first_innings.total_overs*6 + first_innings.current_ball) % 6 == 0:
             first_innings.show_score_board()
+            sleep(1)
 
     # start Second innings
     batting_team_obj, bowling_team_obj = bowling_team_obj, batting_team_obj
@@ -92,9 +94,10 @@ while True:
     while second_innings.total_overs*6 + second_innings.current_ball < match_overs*6:
         if second_innings.current_ball == 0:
             # selecting bowler by captain/user
-            print('Choose Bowler: ')
+            print('Captain Secelting Bowler: ')
             for i, player in enumerate(bowling_team_obj.players_list_obj):
                 print(f'{i+1}. {player.player_name}')
+            sleep(2)
 
             # bowler_idx = int(input('Select Bowler Serial: '))
             bowler_idx = choice([10, 11, 9, 5, 8, 7])  # bowlers index
@@ -102,7 +105,7 @@ while True:
             bowler_obj = bowling_team_obj.players_list_obj[bowler_idx]
             second_innings.set_bowler(bowler_obj)
             print(f'\n New Bowler: {bowler_obj.player_name}\n')
-            sleep(1)
+            sleep(2)
 
         # action after a ball is bowled:  no-ball- N4, wide- W2, wicket- W etc.
         # status = input('Enter after ball status: ')
@@ -115,6 +118,7 @@ while True:
         # show updated score board
         if (second_innings.total_overs*6 + second_innings.current_ball) % 6 == 0:
             second_innings.show_score_board()
+            sleep(1)
 
         # handle win/lose
         if response == 'end':
